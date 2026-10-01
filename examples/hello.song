@@ -1,0 +1,13 @@
+// The smallest valid Song program: one song, one verse.
+song "Hello Song" {
+  meta {
+    bpm: 120
+    key: "C"
+    time_signature: 4/4
+  }
+
+  verse (8 bars) {
+    chords: [C, G, Am, F]
+    lyrics: "Hello world, it's a brand new day!"
+  }
+}

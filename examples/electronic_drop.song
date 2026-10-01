@@ -1,0 +1,50 @@
+// EDM / Club Track with drops and build-ups
+song "Cyber Rush" {
+  meta {
+    bpm:            132
+    key:            F#m
+    time_signature: 4/4
+    genre:          "Cyberpunk Bass House"
+    artist:         "Hexadecimal"
+    tags:           #edm #basshouse #cyberpunk #club
+  }
+
+  intro (8 bars) {
+    synth:      "distorted 303 acid line"
+    drums:      "shuffled 16th hats"
+  }
+
+  verse "Build" (8 bars) {
+    chords:     [F#m, D, Bm, C#]
+    vocal:      "processed vocoder loop: 'system override'"
+    snare:      "accelerating pitch snare roll"
+    filter:     "high pass sweep rising"
+    transition: riser
+  }
+
+  drop "Main Drop" (16 bars) {
+    chords:     [F#m, F#m, D, E]
+    bass:       "heavy growl wavetable bass" #distorted
+    drums:      "four on the floor punchy kick, snappy clap on 2 and 4"
+    lead:       "short plucky stabs"
+    dynamics:   maximum
+  }
+
+  bridge "Breakdown" (8 bars) {
+    synth:      "detuned celestial pad"
+    drums:      mute
+    chords:     [Dmaj7, C#m7, Bm7, F#m7]
+  }
+
+  drop "Second Drop" (16 bars) {
+    chords:     [F#m, F#m, D, E]
+    bass:       "aggressive FM neuro bass"
+    drums:      "full groove with sub punch"
+    fx:         "impact sub drop"
+  }
+
+  outro (8 bars) {
+    synth:      "acid filter closing down"
+    transition: fade_out
+  }
+}

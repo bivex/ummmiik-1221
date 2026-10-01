@@ -1,0 +1,6 @@
+song "Broken" {
+  verse (8 bars) {
+    lyrics: "unterminated string literal
+    chords: [Am, F]
+  }
+}

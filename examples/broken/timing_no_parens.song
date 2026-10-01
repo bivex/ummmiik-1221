@@ -1,0 +1,5 @@
+song "Broken" {
+  verse 8 bars {
+    lyrics: "missing parens around timing"
+  }
+}

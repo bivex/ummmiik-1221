@@ -8,6 +8,14 @@ Reel.tokens
 Reel.interp
 ReelLexer.tokens
 ReelLexer.interp
+SongParser.java
+SongLexer.java
+SongBaseListener.java
+SongListener.java
+Song.tokens
+Song.interp
+SongLexer.tokens
+SongLexer.interp
 __pycache__/
 
 # OS / editor cruft

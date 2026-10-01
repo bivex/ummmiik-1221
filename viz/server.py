@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """
-Reel timeline visualizer — Python server (standard library only, no deps).
+Song timeline & arrangement visualizer — Python server (standard library only, no deps).
 
-Serves the web UI and a tiny API that runs the `ReelToJson` listener on a
-.reel file and returns its JSON timeline, so the editor/montazhnik sees the
-structure of the video as a timeline.
+Serves the web UI and an API that runs the `SongToJson` listener on a
+.song file and returns its JSON timeline/arrangement, so the songwriter,
+composer, producer, or session musician sees the structure, chords, lyrics,
+and instrumentation of the song.
 
     GET /                          -> index.html
     GET /app.js  /style.css ...    -> static assets (from this folder)
-    GET /api/examples              -> ["examples/minecraft/01_speedrun.reel", ...]
-    GET /api/parse?file=PATH       -> JSON timeline produced by ReelToJson
+    GET /api/examples              -> ["examples/cookbook.song", ...]
+    GET /api/parse?file=PATH       -> JSON timeline produced by SongToJson
 
 Run:   python3 viz/server.py        (then open http://localhost:8000)
 Env:   PORT (default 8000), ANTLR_JAR (override auto-detected jar)
@@ -53,13 +54,13 @@ ANTLR_JAR = find_antlr_jar()
 
 def ensure_built() -> None:
     """Compile the parser + listener if not already built."""
-    if os.path.isfile(os.path.join(REPO_ROOT, "ReelToJson.class")):
+    if os.path.isfile(os.path.join(REPO_ROOT, "SongToJson.class")):
         return
     subprocess.run(["make", "-C", REPO_ROOT], capture_output=True, timeout=120)
 
 
-def parse_reel(rel_path: str) -> tuple[bool, object]:
-    """Run `java -cp JAR:ROOT ReelToJson <file>`; return (ok, data)."""
+def parse_song(rel_path: str) -> tuple[bool, object]:
+    """Run `java -cp JAR:ROOT SongToJson <file>`; return (ok, data)."""
     ensure_built()
     abs_path = rel_path if os.path.isabs(rel_path) else os.path.join(REPO_ROOT, rel_path)
     if not os.path.isfile(abs_path):
@@ -67,12 +68,14 @@ def parse_reel(rel_path: str) -> tuple[bool, object]:
     if not ANTLR_JAR:
         return False, {"error": "ANTLR jar not found — set ANTLR_JAR env var"}
 
+    # Run SongToJson (or fallback to ReelToJson if .reel file)
+    consumer = "SongToJson" if rel_path.endswith(".song") or os.path.isfile(os.path.join(REPO_ROOT, "SongToJson.class")) else "ReelToJson"
     proc = subprocess.run(
-        ["java", "-cp", f"{ANTLR_JAR}:{REPO_ROOT}", "ReelToJson", abs_path],
+        ["java", "-cp", f"{ANTLR_JAR}:{REPO_ROOT}", consumer, abs_path],
         capture_output=True, text=True, timeout=30,
     )
     if proc.returncode != 0:
-        return False, {"error": "ReelToJson failed",
+        return False, {"error": f"{consumer} failed",
                        "stderr": (proc.stderr or "")[-2000:].strip()}
     try:
         return True, json.loads(proc.stdout)
@@ -87,7 +90,7 @@ def list_examples() -> list[str]:
         if os.path.basename(root) == "broken":
             continue
         for f in files:
-            if f.endswith(".reel"):
+            if f.endswith(".song") or f.endswith(".reel"):
                 out.append(os.path.relpath(os.path.join(root, f), REPO_ROOT))
     return sorted(out)
 
@@ -106,7 +109,6 @@ class Handler(BaseHTTPRequestHandler):
                    "application/json; charset=utf-8")
 
     def _static(self, name: str):
-        # serve only flat files from viz/ (no traversal, no subdirs)
         if "/" in name or ".." in name or name.startswith("."):
             return self._send(403, b"forbidden", "text/plain")
         fpath = os.path.join(HERE, name)
@@ -128,7 +130,7 @@ class Handler(BaseHTTPRequestHandler):
             files = q.get("file", [])
             if not files:
                 return self._json({"error": "missing ?file="}, 400)
-            ok, data = parse_reel(files[0])
+            ok, data = parse_song(files[0])
             return self._json(data, 200 if ok else 500)
         return self._static(path.lstrip("/"))
 
@@ -137,10 +139,10 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main():
-    print(f"Reel visualizer  →  http://localhost:{PORT}")
-    print(f"  repo:   {REPO_ROOT}")
-    print(f"  jar:    {ANTLR_JAR or '(NOT FOUND — set ANTLR_JAR)'}")
-    print(f"  examples: {len(list_examples())} .reel files")
+    print(f"Song Studio Visualizer  →  http://localhost:{PORT}")
+    print(f"  repo:     {REPO_ROOT}")
+    print(f"  jar:      {ANTLR_JAR or '(NOT FOUND — set ANTLR_JAR)'}")
+    print(f"  examples: {len(list_examples())} song files")
     ThreadingHTTPServer(("127.0.0.1", PORT), Handler).serve_forever()
 
 

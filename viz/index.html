@@ -3,22 +3,38 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Reel Timeline — visualizer for editors</title>
+  <title>Song Studio — Songwriting & Arrangement Visualizer</title>
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <!-- ─────────── top bar ─────────── -->
-  <div class="ui top attached inverted menu">
-    <div class="header item">🎬 Reel Timeline</div>
+  <div class="ui top attached inverted menu main-nav">
+    <div class="header item studio-brand">🎵 Song Studio</div>
     <div class="item">
       <select id="file-select" class="ui compact selection dropdown"></select>
     </div>
     <div class="item">
-      <button id="load-btn" class="ui primary button">Load</button>
+      <button id="load-btn" class="ui primary button"><i class="sync alternate icon"></i> Load</button>
     </div>
+
+    <!-- View Modes -->
+    <div class="item">
+      <div class="ui buttons tiny inverted view-toggle">
+        <button class="ui button active" data-view="timeline"><i class="columns icon"></i> Timeline</button>
+        <button class="ui button" data-view="sheet"><i class="align left icon"></i> Lyrics Sheet</button>
+        <button class="ui button" data-view="chords"><i class="th icon"></i> Chords Grid</button>
+      </div>
+    </div>
+
     <div class="right menu">
+      <div class="item" id="playback-controls">
+        <button id="play-btn" class="ui tiny teal icon button" title="Simulate Metronome Timeline Playback">
+          <i class="play icon"></i>
+        </button>
+        <span id="tempo-ticker" class="ticker-badge">BPM: --</span>
+      </div>
       <div class="item" id="status-text"><i class="circle notch loading icon"></i> loading…</div>
     </div>
   </div>
@@ -31,14 +47,17 @@
 
   <!-- ─────────── main canvas ─────────── -->
   <div class="ui attached padded segment" id="main" hidden>
-    <div id="videos"></div>
+    <div id="songs"></div>
   </div>
 
-  <!-- ─────────── scene detail modal ─────────── -->
-  <div class="ui modal" id="scene-modal">
+  <!-- ─────────── section detail modal ─────────── -->
+  <div class="ui modal" id="section-modal">
     <i class="close icon"></i>
-    <div class="header" id="modal-title">Scene</div>
-    <div class="content" id="modal-body"></div>
+    <div class="header" id="modal-title">Section</div>
+    <div class="scrolling content" id="modal-body"></div>
+    <div class="actions">
+      <div class="ui primary ok button">Done</div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>

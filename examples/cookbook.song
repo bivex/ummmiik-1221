@@ -1,0 +1,103 @@
+// ──────────────────────────────────────────────────────────────
+// cookbook.song — exercises every feature of the Song language.
+// ──────────────────────────────────────────────────────────────
+
+define MAIN_CHORDS = [Am, F, C, G]
+define CHORUS_CHORDS = [F, G, C, Am]
+define PRODUCER = "DJ Apricot"
+define TEMPO = 124
+
+song "Midnight Echoes" {
+
+  meta {
+    bpm:            $TEMPO
+    key:            Am
+    time_signature: 4/4
+    genre:          "Indie Pop"
+    artist:         "The Antigravity Band"
+    producer:       $PRODUCER
+    mood:           #melancholic #uplifting
+    tags:           #indie #pop #hits2026
+    tuning:         "Standard E"
+  }
+
+  // ── Intro with bar duration ──
+  intro (4 bars) {
+    chords:     [Am, F]
+    guitar:     "arpeggiated clean melody" #reverb
+    drums:      "light hi-hat pattern"
+    dynamics:   piano
+  }
+
+  // ── Verse 1 with multiline lyrics and style tags ──
+  verse "1" (8 bars) {
+    chords:     $MAIN_CHORDS
+    lyrics:     """
+      Walking down the midnight avenue
+      Raindrops reflecting golden hues
+      Searching for the words I couldn't say
+      Before the morning washed it all away
+    """
+    vocal:      "lead vocal" #intimate #dry
+    bass:       "sub bass"
+    drums:      "kick on downbeats, soft snare"
+  }
+
+  // ── Pre-Chorus building tension ──
+  pre_chorus (4 bars) {
+    chords:     [Dm, Em, F, G]
+    lyrics:     "And the pulse begins to rise inside my chest..."
+    vocal:      "lead vocal with octave harmony"
+    build:      "snare roll crescendo"
+    transition: build_up
+  }
+
+  // ── Chorus with high energy, multiple vocals and layer attribution ──
+  chorus (8 bars) {
+    chords:     $CHORUS_CHORDS
+    lyrics:     """
+      We are the echoes in the dark!
+      Lighting a fire from a spark!
+      Nothing can tear this night apart!
+    """
+    vocal:      "belted lead" #loud #bright
+    harmony:    "three-part choir" by "Sisters Harmony"
+    guitar:     "distorted power chords"
+    drums:      "full rock beat" #punchy
+    bass:       "heavy picked bass"
+    dynamics:   forte
+  }
+
+  // ── Verse 2 with range timing (1 .. 8 bars) ──
+  verse "2" (1 .. 8 bars) {
+    chords:     $MAIN_CHORDS
+    lyrics:     """
+      Clock is ticking, shadows on the wall
+      Waiting for the moment that you call
+    """
+    vocal:      "lead vocal"
+    piano:      "staccato chords"
+  }
+
+  // ── Guitar Solo section ──
+  solo "Electric Guitar" (8 bars) {
+    chords:     [Am, G, F, E7]
+    lead:       "pentatonic blues run with wah-wah"
+    transition: sweep
+  }
+
+  // ── Bridge with time-based timing (0s - 20s) ──
+  bridge (0s - 20s) {
+    chords:     [Fmaj7, G, Em7, Am7]
+    lyrics:     "Hold on... just hold on..."
+    synth:      "ambient pad swell" #warm
+    percussion: "tribal toms"
+  }
+
+  // ── Outro fading away ──
+  outro (4 bars) {
+    chords:     [Am, F, Am]
+    lyrics:     "Midnight echoes fading out..."
+    transition: fade_out
+  }
+}

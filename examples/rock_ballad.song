@@ -1,0 +1,57 @@
+// Acoustic / Rock Ballad with guitar solos and dynamic shifts
+song "Before The Rain" {
+  meta {
+    bpm:            78
+    key:            "D"
+    time_signature: 4/4
+    genre:          "Alternative Rock"
+    artist:         "Stone & Timber"
+    tags:           #rock #ballad #acoustic #emotional
+  }
+
+  intro (8 bars) {
+    chords:     [D, G, Bm, A]
+    guitar:     "acoustic fingerpicking in DADGAD" #warm
+    piano:      "sparse root notes"
+    dynamics:   piano
+  }
+
+  verse "1" (8 bars) {
+    chords:     [D, G, Bm, A]
+    lyrics:     """
+      The sky turns grey above the valley road
+      Carrying a heavy and unspoken load
+      The dust begins to settle on the sill
+      And the world goes quietly still
+    """
+    vocal:      "gravelly baritone" #close_mic
+    bass:       "warm upright bass"
+  }
+
+  chorus (8 bars) {
+    chords:     [G, A, D, Bm]
+    lyrics:     """
+      Before the rain washes all the pain away
+      Before the night turns to another broken day
+      Stand with me under the thunderclouds
+      Louder than all of the silent crowds
+    """
+    vocal:      "raspy belt + high harmony"
+    guitar:     "distorted Les Paul power chords"
+    drums:      "heavy Bonham style groove" #roomy
+    dynamics:   forte
+  }
+
+  solo "Lead Guitar" (16 bars) {
+    chords:     [Bm, G, D, A]
+    lead:       "emotional bending melody with tube overdrive"
+    drums:      "building crash cymbals"
+    transition: swell
+  }
+
+  outro (4 bars) {
+    chords:     [D, G, D]
+    guitar:     "single acoustic strum letting notes ring"
+    dynamics:   pianissimo
+  }
+}

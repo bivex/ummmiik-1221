@@ -1,0 +1,81 @@
+// Modern Radio Pop Anthem
+define KEY_TONIC = "Em"
+define CHORDS_VERSE = [Em, C, G, D]
+define CHORDS_CHORUS = [C, G, D, Em]
+
+song "Starlight Frequency" {
+  meta {
+    bpm:            128
+    key:            $KEY_TONIC
+    time_signature: 4/4
+    genre:          "Electropop"
+    artist:         "Kira & The Waves"
+    tags:           #pop #electronic #dance #summer2026
+  }
+
+  intro (4 bars) {
+    synth:      "filtered supersaw arpeggio" #sidechain
+    fx:         "white noise riser"
+    dynamics:   mezzo_piano
+  }
+
+  verse "1" (8 bars) {
+    chords:     $CHORDS_VERSE
+    lyrics:     """
+      Static in the air tonight
+      Catching glimpses of neon light
+      Every second counting down
+      Leaving footprints in this town
+    """
+    vocal:      "female lead" #autotune #crisp
+    bass:       "sub 808"
+    drums:      "trap hats and snap on 2 and 4"
+  }
+
+  pre_chorus (4 bars) {
+    chords:     [Am, Bm, C, D]
+    lyrics:     "Can you feel the gravity give way?"
+    build:      "kick accelerating from 4th notes to 16th notes"
+    transition: riser_drop
+  }
+
+  chorus (16 bars) {
+    chords:     $CHORDS_CHORUS
+    lyrics:     """
+      Tune into the starlight frequency!
+      Lost in rhythm, completely free!
+      Nothing can pull us down tonight!
+      Burning up in satellite light!
+    """
+    vocal:      "belted lead with octave double" #wide #reverb
+    synth:      "massive unison lead stack"
+    bass:       "rolling bassline"
+    drums:      "four on the floor, open hi-hats"
+    dynamics:   fortissimo
+  }
+
+  bridge (8 bars) {
+    chords:     [Cmaj7, D, Em7, Bm7]
+    lyrics:     "Higher and higher, above the clouds..."
+    vocal:      "whisper vocal" #space_delay
+    synth:      "plucked delay synth"
+    drums:      mute
+  }
+
+  chorus "Final" (16 bars) {
+    chords:     $CHORDS_CHORUS
+    lyrics:     """
+      Tune into the starlight frequency!
+      Lost in rhythm, completely free!
+    """
+    energy:     maximum
+    fx:         "confetti cannon boom", "laser sweep"
+  }
+
+  outro (8 bars) {
+    chords:     [Em, C, Em]
+    lyrics:     "Frequency... fading... out..."
+    synth:      "tape stop effect"
+    transition: fade_out
+  }
+}
