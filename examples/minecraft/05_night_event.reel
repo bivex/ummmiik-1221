@@ -1,0 +1,54 @@
+// ════════════════════════════════════════════════════════════
+// СЦЕНАРИЙ 5 — «Ночной ивент»  (хаос-монтаж + кульминация-дуэль)
+// Концепция: динамичный монтаж хайлайтов с ночного PvP-ивента.
+// Быстрый экшен-монтаж → замедленная финальная дуэль → победитель.
+// Цель: показать живое, активное комьюнити и драйв сервера.
+// ════════════════════════════════════════════════════════════
+
+define SERVER = "CubeForge"
+
+reel "Что было на ночном ивенте 😱" {
+  meta {
+    platform: tiktok
+    aspect:   9:16
+    duration: 22s
+    music:    "Hard Phonk" by "PlayaPhonk"
+    tags:     #minecraft #pvp #ивент #fyp #хайлайты
+    server:   $SERVER
+  }
+
+  // ХУК — ставки и масштаб
+  scene "hook" (0s - 3s) {
+    visual:     "толпа из 50 игроков на спавне, обратный отсчёт 3-2-1"
+    text:       "50 игроков. 1 приз." #big #shake
+    sfx:        "countdown_beep"
+    transition: cut
+  }
+
+  // ХАОС — быстрый монтаж схваток
+  scene "chaos" (3s - 12s) {
+    visual:     "монтаж PvP: удары, взрывы, падения в лаву"
+    caption:    "ЧИСТЫЙ ХАОС" #red #shake
+    sfx:        "explosion", "sword_clang", "whoosh", "fall"
+    effect:     speed-ramp
+    transition: whip_pan
+  }
+
+  // ФИНАЛ — замедленная дуэль двух последних
+  scene "final" (12s - 18s) {
+    visual:     "двое финалистов, медленная дуэль на мосту"
+    text:       "ФИНАЛ" #glow #center
+    music:      "drop"
+    effect:     slowmo
+    transition: zoom_in
+  }
+
+  // ПОБЕДИТЕЛЬ
+  scene "winner" (18s - 22s) {
+    visual:     "победитель поднимает трофей, фейерверк вокруг"
+    text:       "Победитель!" #big #confetti
+    sfx:        "cheer", "firework"
+    server:     $SERVER
+    transition: fade_out
+  }
+}

@@ -1,0 +1,5 @@
+// ERROR: a value may carry at most one `by` attribution clause.
+// Expect: unexpected 'by' after the first attribution.
+reel "x" {
+  music: "song" by "artist" by "someone-else"
+}

@@ -1,0 +1,171 @@
+// ════════════════════════════════════════════════════════════════
+// stress.reel — ДЛИННЫЙ рилс, цель которого поймать баги.
+// Намеренно напичкан edge-case'ами парсера и listener'а:
+//   • циклические $ref            • forward-ref (define после использования)
+//   • переопределение define       • $ref на несуществующее имя
+//   • $ref внутри by / внутри списка / в тайминге
+//   • вложенный meta (несколько уровней)
+//   • дублирующиеся ключи в одной сцене
+//   • строки со всеми escape-последовательностями + эмодзи + Unicode
+//   • теги с цифр (#2025goals) и Unicode (#привет_мир)
+//   • все transitions/effects, все единицы времени (ms/s/m/h), аспекты
+//   • несколько видео в одном файле (разные kind)
+//   • пустые блоки, сцены без имени/тайминга
+// ════════════════════════════════════════════════════════════════
+
+import "shared.reel"
+
+// ── defines: refs, forward, переопределение, цикл, несуществующий ──
+define INTRO   = 3s
+define OUTRO   = 2s
+define ARTIST  = "NEONWOLF"
+define TRACK   = "Phonk Drop" by $ARTIST     // ref внутри by-clause
+define FIRST   = $OUTRO                        // ref → ref
+define WHO     = $MISSING                      // несуществующий ref
+define DUP     = 10s
+define DUP     = 99s                           // переопределение → last-write-wins
+define CYCLE_A = $CYCLE_B                      // циклический ref A→B→A
+define CYCLE_B = $CYCLE_A
+
+reel "Эпичный тур по серверу 🔥" {
+
+  meta {
+    platform: tiktok
+    aspect:   9:16
+    duration: 60s
+    fps:      30
+    music:    $TRACK                            // ref → string + by
+    tags:     #minecraft #сервер #тур #fyp #эпик #2025goals #привет_мир
+    autoplay: true
+    loop:     false
+    broll:    ["спавн", "шахты", "клановая база", "PVP-арена", "аукцион", "ивент-зона"]
+  }
+
+  // ── ВЛОЖЕННЫЙ meta: если listener не считает глубину, свойство
+  //    `still_meta` после внутреннего meta улетит в props видео, а не в meta.
+  meta {
+    language: ru
+    subtitles: true
+    meta {
+      note: "deeply nested meta block"
+    }
+    still_meta: "я всё ещё в meta?"
+  }
+
+  // forward-ref: $TOTAL определён в самом низу файла
+  scene "hook" (0s - $INTRO) {
+    text:       "Добро пожаловать на\nСАМЫЙ\nэпичный сервер 🔥" #big #shake #glow
+    visual:     "камера наезжает на огромный спавн в лучах небесного света"
+    sfx:        "whoosh", "boom", "riser"
+    transition: cut
+  }
+
+  // дублирующиеся ключи → должны накопиться в упорядоченный массив
+  scene "rules" ($INTRO .. 8s) {
+    text: "Правило 1"
+    text: "Правило 2"
+    text: "Правило 3"
+    caption: "три текстовых слоя в одной сцене"
+  }
+
+  // строка со всеми escape-последовательностями + эмодзи + Unicode
+  scene "escapes" (8s - 10s) {
+    text:    "Tab:\there\nNewline \"кавычки\" \\backslash"
+    caption: "Emoji: 🔥 ⚡ 💎 🎯 日本語 ñ é ü"
+  }
+
+  // все transitions и effects по очереди
+  scene "t1" (10s - 12s) {
+    visual: "a"
+    transition: cut
+    effect: zoom-in
+  }
+  scene "t2" (12s - 14s) {
+    visual: "b"
+    transition: fade_in
+    effect: slowmo
+  }
+  scene "t3" (14s - 16s) {
+    visual: "c"
+    transition: whip_pan
+    effect: speed-ramp
+  }
+  scene "t4" (16s - 18s) {
+    visual: "d"
+    transition: dissolve
+    effect: glow
+  }
+  scene "t5" (18s - 20s) {
+    visual: "e"
+    transition: glitch
+    effect: shake
+  }
+  scene "t6" (20s - 22s) {
+    visual: "f"
+    transition: zoom_in
+    effect: pulse
+  }
+
+  // duration-only тайминг со всеми единицами
+  scene "ms"   (250ms) { text: "миллисекунды" }
+  scene "min"  (2m)    { text: "минуты" }
+  scene "hour" (1h)    { text: "час (монтажная единица)" }
+
+  // микс типов значений: аспекты, числа, bool, keyword
+  scene "mixed" (22s - 25s) {
+    landscape: 16:9
+    portrait:  9:16
+    square:    1:1
+    ultrawide: 21:9
+    fps:       60
+    speed:     1.5
+    gravity:   9.81
+    viewers:   50
+    live:      true
+    recorded:  false
+    format:    short
+    mode:      video
+  }
+
+  // пустая сцена и сцена без имени/тайминга
+  scene "empty" {}
+  scene {
+    visual: "анонимная сцена без тайминга"
+    text: "идёт по порядку"
+  }
+
+  // длинные списки и дубликаты в списке
+  scene "montage" (25s - 45s) {
+    visual:     "быстрый монтаж двенадцати локаций"
+    broll:      ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12"]
+    sfx:        "hit", "hit", "hit", "hit"
+    effect:     speed-ramp
+    transition: whip_pan
+  }
+
+  // циклический ref в тайминге — listener не должен зависнуть
+  scene "cycle" ($CYCLE_A - 50s) {
+    text: "циклический $ref в start-тайминге"
+  }
+
+  // список со смешанными типами и refs внутри
+  scene "listref" (50s - 55s) {
+    cast: [$ARTIST, "guest", $TRACK, 42, true, #vip #host]
+    who:  $WHO
+  }
+
+  scene "outro" (58s - $TOTAL) {
+    text: "Залетай на сервер!" #big
+    transition: fade_out
+    fwd_prop: $LATE          // forward-ref в property (define ниже)
+  }
+}
+
+// forward-ref targets — определены ПОСЛЕ всех использований (file scope)
+define TOTAL = 60s
+define LATE  = "из-будущего"
+
+// ── несколько видео в одном файле, разные kind ──
+tiktok "teaser" {}
+short  "another" { scene (1s) { text: "x" } }
+video  "third"   { scene { visual: "y" } }

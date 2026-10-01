@@ -1,0 +1,6 @@
+// The smallest valid Reel program: one video, one scene.
+reel "Hello, Reels" {
+  scene (0s - 3s) {
+    text: "Hi there!"
+  }
+}

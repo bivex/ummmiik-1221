@@ -1,0 +1,15 @@
+# ANTLR4 generated artifacts (rebuild with: make)
+*.class
+ReelParser.java
+ReelLexer.java
+ReelBaseListener.java
+ReelListener.java
+Reel.tokens
+Reel.interp
+ReelLexer.tokens
+ReelLexer.interp
+__pycache__/
+
+# OS / editor cruft
+.DS_Store
+/.playwright-mcp

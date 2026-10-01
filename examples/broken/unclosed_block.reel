@@ -1,0 +1,4 @@
+// ERROR: the reel's closing brace is missing.
+// Expect: parser reports a missing '}' near EOF.
+reel "x" {
+  scene { text: "a" }

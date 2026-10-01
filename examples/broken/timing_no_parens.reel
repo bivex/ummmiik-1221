@@ -1,0 +1,7 @@
+// ERROR: scene timing must be wrapped in parentheses: (3s), not 3s.
+// Expect: parser complains about an unexpected DURATION where '{' is required.
+reel "x" {
+  scene "intro" 3s {
+    text: "a"
+  }
+}

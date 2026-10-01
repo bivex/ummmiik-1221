@@ -1,0 +1,48 @@
+// ════════════════════════════════════════════════════════════
+// СЦЕНАРИЙ 2 — «Таймлапс базы»  (ускоренная съёмка + эпик-финал)
+// Концепция: пустой кусок земли превращается в эпичную базу в
+// ускоренной съёмке. Драматичная музыка, финал на закате в slowmo.
+// Цель: показать масштаб и красоту построек сервера.
+// ════════════════════════════════════════════════════════════
+
+define SERVER = "CubeForge"
+
+reel "База за одну ночь" {
+  meta {
+    platform: instagram
+    aspect:   9:16
+    duration: 20s
+    music:    "Epic Cinematic Build" by "Audio Machine"
+    tags:     #minecraft #build #timelapse #fyp #постройка
+    server:   $SERVER
+  }
+
+  scene "hook" (0s - 3s) {
+    visual:     "камера сверху на ровный пустой кусок земли"
+    text:       "Они сказали — за ночь невозможно" #big #center
+    transition: cut
+  }
+
+  scene "build" (3s - 15s) {
+    visual:     "таймлапс: растут фундамент, стены, башни, крыша, сад"
+    caption:    "3 минуты ролика = 8 часов записи" #soft
+    broll:      ["фундамент", "стены", "башни", "интерьер", "сад", "освещение"]
+    effect:     speed-ramp
+    transition: cut
+  }
+
+  scene "reveal" (15s - 18s) {
+    visual:     "закат, камера плавно облетает готовую базу"
+    text:       "Готово." #glow #cinematic
+    music:      "drop"
+    effect:     slowmo
+    transition: zoom_in
+  }
+
+  scene "cta" (18s - 20s) {
+    text:       "Хочешь так же?" #big
+    server:     $SERVER
+    caption:    "IP в описании"
+    transition: fade_out
+  }
+}

@@ -1,0 +1,72 @@
+// ──────────────────────────────────────────────────────────────
+// cookbook.reel — exercises every feature of the Reel language.
+// Parse it with:  make && java -cp "$CP:." org.antlr.v4.gui.TestRig \
+//                    Reel program -tree examples/cookbook.reel
+// ──────────────────────────────────────────────────────────────
+
+// Named constants, referenced later as $NAME.
+define MAX_LEN  = 60s
+define ARTIST   = "DJ Apricot"
+define HOOK_LEN = 3s
+
+reel "Morning Routine Hacks" {
+
+  meta {
+    // open-vocabulary identifiers as values
+    platform: instagram
+    aspect:   9:16          // aspect ratios are first-class values
+    duration: $MAX_LEN      // references resolve to a constant
+    fps:      30            // plain numbers
+    music:    "Sunny Lo-Fi" by $ARTIST   // attribution with a reference
+    tags:     #fyp #morningroutine #viral
+    autoplay: true          // booleans
+    // comma-separated list value
+    broll:    ["kitchen", "morning light", "coffee pour"]
+  }
+
+  /* line comments use // and block comments use slash-star ... star-slash.
+     Note: block comments do NOT nest, so avoid putting a close-marker inside. */
+
+  // ── Scene with an explicit start..end window (dash form) ──
+  scene "hook" (0s - $HOOK_LEN) {
+    visual:    "person slams alarm, eyes wide"
+    text:      "POV: it's 6am" #big #center   // trailing style tags
+    sfx:       "whoosh", "boop"               // multiple comma values
+    transition: cut
+    effect:    zoom-in                        // hyphenated identifier
+  }
+
+  // ── Scene with the `..` range separator ──
+  scene "hack1" (3s .. 12s) {
+    narration: "First, drink water before coffee"
+    visual:    "pouring water into glass"
+    caption:   "Hack #1: Water first"
+    speaker:   "host"
+    transition: whip_pan
+  }
+
+  // ── Duration-only timing, single-quoted string ──
+  scene "beat" (500ms) {
+    text: 'single quotes work too'
+    sfx:  "tick"
+  }
+
+  // ── Anonymous, order-based scene (no name, no timing) ──
+  scene {
+    visual: "quick montage of the day"
+    music:  off
+  }
+
+  // ── A reserved word used as a plain value ──
+  scene "cta" {
+    visual:    "points to follow button"
+    text:      "Follow for more!"
+    format:    short
+    transition: fade_out
+  }
+}
+
+// A file may declare several videos, or none.
+short "Bloopers" {
+  scene (2s) { text: "wait for it..." }
+}

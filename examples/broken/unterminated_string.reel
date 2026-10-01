@@ -1,0 +1,6 @@
+// ERROR: the string is never closed. Because the escape rule no longer
+// swallows newlines, the error is reported on THIS line, not 50 lines down.
+// Expect: a token-recognition / mismatched-input error on line 3.
+reel "x" {
+  text: "oops, no closing quote
+}

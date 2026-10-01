@@ -1,0 +1,8 @@
+// ERROR: a bare number is not allowed in a timing window — it must carry
+// a unit (seconds-vs-frames is ambiguous otherwise). Write (0s - 3s).
+// Expect: "mismatched input '0' expecting {DURATION, REFERENCE}".
+reel "x" {
+  scene (0 - 3s) {
+    text: "a"
+  }
+}

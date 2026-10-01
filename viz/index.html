@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reel Timeline — visualizer for editors</title>
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <!-- ─────────── top bar ─────────── -->
+  <div class="ui top attached inverted menu">
+    <div class="header item">🎬 Reel Timeline</div>
+    <div class="item">
+      <select id="file-select" class="ui compact selection dropdown"></select>
+    </div>
+    <div class="item">
+      <button id="load-btn" class="ui primary button">Load</button>
+    </div>
+    <div class="right menu">
+      <div class="item" id="status-text"><i class="circle notch loading icon"></i> loading…</div>
+    </div>
+  </div>
+
+  <!-- ─────────── error banner ─────────── -->
+  <div id="error-banner" class="ui attached negative message" hidden>
+    <div class="header">Parse error</div>
+    <pre id="error-detail"></pre>
+  </div>
+
+  <!-- ─────────── main canvas ─────────── -->
+  <div class="ui attached padded segment" id="main" hidden>
+    <div id="videos"></div>
+  </div>
+
+  <!-- ─────────── scene detail modal ─────────── -->
+  <div class="ui modal" id="scene-modal">
+    <i class="close icon"></i>
+    <div class="header" id="modal-title">Scene</div>
+    <div class="content" id="modal-body"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
