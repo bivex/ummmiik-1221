@@ -68,14 +68,12 @@ def parse_song(rel_path: str) -> tuple[bool, object]:
     if not ANTLR_JAR:
         return False, {"error": "ANTLR jar not found — set ANTLR_JAR env var"}
 
-    # Run SongToJson (or fallback to ReelToJson if .reel file)
-    consumer = "SongToJson" if rel_path.endswith(".song") or os.path.isfile(os.path.join(REPO_ROOT, "SongToJson.class")) else "ReelToJson"
     proc = subprocess.run(
-        ["java", "-cp", f"{ANTLR_JAR}:{REPO_ROOT}", consumer, abs_path],
+        ["java", "-cp", f"{ANTLR_JAR}:{REPO_ROOT}", "SongToJson", abs_path],
         capture_output=True, text=True, timeout=30,
     )
     if proc.returncode != 0:
-        return False, {"error": f"{consumer} failed",
+        return False, {"error": "SongToJson failed",
                        "stderr": (proc.stderr or "")[-2000:].strip()}
     try:
         return True, json.loads(proc.stdout)
@@ -90,7 +88,7 @@ def list_examples() -> list[str]:
         if os.path.basename(root) == "broken":
             continue
         for f in files:
-            if f.endswith(".song") or f.endswith(".reel"):
+            if f.endswith(".song"):
                 out.append(os.path.relpath(os.path.join(root, f), REPO_ROOT))
     return sorted(out)
 

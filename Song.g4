@@ -46,7 +46,7 @@ statement
     | property
     ;
 
-// Video/Song declaration.
+// Song declaration.
 songDecl
     : songKind STRING? block
     ;
@@ -56,7 +56,6 @@ songKind
     | TRACK
     | BEAT
     | PIECE
-    | REEL
     ;
 
 // Section declaration: verse, chorus, bridge, intro, outro, etc.
@@ -75,7 +74,6 @@ sectionKind
     | DROP
     | SOLO
     | SECTION
-    | SCENE
     ;
 
 // Timing can be: (8 bars), (4 bar), (16 beats), (0s - 30s), (1 .. 8 bars), (30s)
@@ -158,8 +156,8 @@ primary
     ;
 
 keyword
-    : SONG | TRACK | BEAT | PIECE | REEL
-    | VERSE | CHORUS | BRIDGE | INTRO | OUTRO | PRE_CHORUS | HOOK | DROP | SOLO | SECTION | SCENE
+    : SONG | TRACK | BEAT | PIECE
+    | VERSE | CHORUS | BRIDGE | INTRO | OUTRO | PRE_CHORUS | HOOK | DROP | SOLO | SECTION
     | META | BY | DEFINE | IMPORT
     ;
 
@@ -174,7 +172,6 @@ SONG       : 'song';
 TRACK      : 'track';
 BEAT       : 'beat';
 PIECE      : 'piece';
-REEL       : 'reel';
 VERSE      : 'verse';
 CHORUS     : 'chorus';
 BRIDGE     : 'bridge';
@@ -185,7 +182,6 @@ HOOK       : 'hook';
 DROP       : 'drop';
 SOLO       : 'solo';
 SECTION    : 'section';
-SCENE      : 'scene';
 META       : 'meta';
 BY         : 'by';
 DEFINE     : 'define';
@@ -194,9 +190,6 @@ IMPORT     : 'import';
 // --- Composite tokens ---
 // Time signatures: 4/4, 3/4, 6/8, 7/8, 12/8
 TIME_SIGNATURE : DIGIT+ '/' DIGIT+ ;
-
-// Aspect ratios (optional, for video/visual compatibility): 9:16, 16:9
-ASPECT         : DIGIT+ ':' DIGIT+ ;
 
 // Durations and musical lengths:
 // 8 bars, 4 bar, 16 beats, 1 beat, 8 measures, 30s, 500ms, 2m, 1h
